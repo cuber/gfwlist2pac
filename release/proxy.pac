@@ -2443,7 +2443,8 @@ var domains = {
   "stackoverflow.com": 1
 };
 
-var proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;";
+var myip   = myIpAddress();
+var proxy  = "SOCKS5 " + myip + ":7070; SOCKS " + myip + ":7070; DIRECT;";
 var squid  = "PROXY 192.168.44.67:3128;";
 var direct = "DIRECT;";
 
@@ -2457,6 +2458,6 @@ function FindProxyForURL(url, host) {
     off  = host.indexOf('.') + 1;
     host = host.slice(off);
   } while (off >= 1);
-  if (myIpAddress().match(/^10\./)) return squid;
+  if (myip.match(/^10\./)) return squid;
   return direct;
 }
