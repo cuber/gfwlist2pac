@@ -2436,11 +2436,15 @@ var domains = {
   "lookatgame.com": 1, 
   "darpa.mil": 1, 
   "wtfpeople.com": 1, 
-  "1-apple.com.tw": 1
+  "1-apple.com.tw": 1,
+  "github.com": 1,
+  "dropbox.com": 1,
+  "linode.com": 1,
+  "stackoverflow.com": 1
 };
 
-var proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;";
 var squid  = "PROXY 192.168.44.67:3128;";
+var proxy  = "SOCKS5 127.0.0.1:7070;";
 var direct = "DIRECT;";
 
 function FindProxyForURL(url, host) {
@@ -2451,7 +2455,7 @@ function FindProxyForURL(url, host) {
   do {
     if (domains.hasOwnProperty(host)) return proxy;
     off  = host.indexOf('.') + 1;
-    host = host.slice(lastPos);
+    host = host.slice(off);
   } while (off >= 1);
   if (myIpAddress().match(/^10\./)) return squid;
   return direct;
