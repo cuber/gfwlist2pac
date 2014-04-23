@@ -2440,24 +2440,24 @@ var domains = {
   "github.com": 1,
   "dropbox.com": 1,
   "linode.com": 1,
-  "stackoverflow.com": 1
+  "stackoverflow.com": 1,
+  "vip.com": 0,
+  "vipshop.com": 0
 };
 
-var myip   = myIpAddress();
-var proxy  = "SOCKS5 " + myip + ":7070; SOCKS " + myip + ":7070; DIRECT;";
+var proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;";
 var squid  = "PROXY 192.168.44.67:3128;";
 var direct = "DIRECT;";
 
 function FindProxyForURL(url, host) {
-  if (isPlainHostName(host))         return proxy;
-  if (host.match(/vip(shop)?\.com/)) return direct;
-  if (host.match(/google/))          return proxy;
+  if (isPlainHostName(host)) return direct;
+  if (host.match(/google/))  return proxy;
   var off;
   do {
-    if (domains.hasOwnProperty(host)) return proxy;
+    if (domains.hasOwnProperty(host)) return domains[host] ? proxy : direct;
     off  = host.indexOf('.') + 1;
     host = host.slice(off);
   } while (off >= 1);
-  if (myip.match(/^10\./)) return squid;
+  if (myIpAddress().match(/^10\./)) return squid;
   return direct;
 }
