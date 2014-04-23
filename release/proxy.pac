@@ -2443,12 +2443,12 @@ var domains = {
   "stackoverflow.com": 1
 };
 
+var proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;";
 var squid  = "PROXY 192.168.44.67:3128;";
-var proxy  = "SOCKS5 127.0.0.1:7070;";
 var direct = "DIRECT;";
 
 function FindProxyForURL(url, host) {
-  if (isPlainHostName(host))         return direct;
+  if (isPlainHostName(host))         return proxy;
   if (host.match(/vip(shop)?\.com/)) return direct;
   if (host.match(/google/))          return proxy;
   var off;
