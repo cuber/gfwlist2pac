@@ -2450,14 +2450,13 @@ var squid  = "PROXY 192.168.44.67:3128;";
 var direct = "DIRECT;";
 
 function FindProxyForURL(url, host) {
-  if (isPlainHostName(host)) return direct;
-  if (host.match(/google/))  return proxy;
+  if (/google/.test(host))   return proxy;
   var off;
   do {
     if (domains.hasOwnProperty(host)) return domains[host] ? proxy : direct;
     off  = host.indexOf('.') + 1;
     host = host.slice(off);
   } while (off >= 1);
-  if (myIpAddress().match(/^10\./)) return squid;
+  if (dnsResolve("oa2.vipshop.com") == "192.168.0.33") return squid;
   return direct;
 }
