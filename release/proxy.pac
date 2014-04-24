@@ -2442,7 +2442,8 @@ var domains = {
   "linode.com": 1,
   "stackoverflow.com": 1,
   "vip.com": 0,
-  "vipshop.com": 0
+  "vipshop.com": 0,
+  "vipstatic.com": 0
 };
 
 var proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;";
@@ -2450,7 +2451,7 @@ var squid  = "PROXY 192.168.44.67:3128;";
 var direct = "DIRECT;";
 
 function FindProxyForURL(url, host) {
-  if (/google/.test(host))   return proxy;
+  if (/google/.test(host)) return proxy;
   var off;
   do {
     if (domains.hasOwnProperty(host)) return domains[host] ? proxy : direct;
