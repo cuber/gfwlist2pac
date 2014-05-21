@@ -1262,6 +1262,7 @@ var domains = {
   "hutong9.net": 1, 
   "verybs.com": 1, 
   "blogspot.jp": 1, 
+  "blogspot.co.uk": 1, 
   "avidemux.org": 1, 
   "alkasir.com": 1, 
   "shinychan.com": 1, 
@@ -2441,9 +2442,16 @@ var domains = {
   "dropbox.com": 1,
   "linode.com": 1,
   "stackoverflow.com": 1,
+  "linost.com": 1,
+  "eigenlogik.com": 1,
+  "iceimg.com": 1,
   "vip.com": 0,
+  "vipdev.be": 0,
   "vipshop.com": 0,
-  "vipstatic.com": 0
+  "vipstatic.com": 0,
+  "jetbrains.com": 1,
+  "instagram.com": 1,
+  "linkedin.com": 1
 };
 
 var proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;";
@@ -2451,13 +2459,16 @@ var squid  = "PROXY 192.168.44.67:3128;";
 var direct = "DIRECT;";
 
 function FindProxyForURL(url, host) {
-  if (/google/.test(host)) return proxy;
+  if (/google/i.test(host)) return proxy;
   var off;
   do {
     if (domains.hasOwnProperty(host)) return domains[host] ? proxy : direct;
     off  = host.indexOf('.') + 1;
     host = host.slice(off);
   } while (off >= 1);
-  if (dnsResolve("oa2.vipshop.com") == "192.168.0.33") return squid;
+  if (dnsResolve("oa2.vipshop.com") == "192.168.0.33") {
+    if (/\.(mp\d)|(m4a)\??/i.test(url)) return proxy;
+    return squid;
+  }
   return direct;
 }
