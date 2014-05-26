@@ -2454,21 +2454,24 @@ var domains = {
   "linkedin.com": 1
 };
 
-var proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;";
-var squid  = "PROXY 192.168.44.67:3128;";
-var direct = "DIRECT;";
+var proxy, direct, office;
+
+if ((office = (dnsResolve("oa2.vipshop.com") == "192.168.0.33"))) {
+  proxy  = "SOCKS5 192.168.44.67:21; SOCKS 192.168.44.67:21; DIRECT;"
+  direct = "PROXY 192.168.44.67:20;"
+} else {
+  proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;"
+  direct = "DIRECT;"
+}
 
 function FindProxyForURL(url, host) {
   if (/google/i.test(host)) return proxy;
   var off;
   do {
-    if (domains.hasOwnProperty(host)) return domains[host] ? proxy : direct;
+    if (domains.hasOwnProperty(host)) return domains[host] ? proxy : "DIRECT;";
     off  = host.indexOf('.') + 1;
     host = host.slice(off);
   } while (off >= 1);
-  if (dnsResolve("oa2.vipshop.com") == "192.168.0.33") {
-    if (/\.(mp\d)|(m4a)\??/i.test(url)) return proxy;
-    return squid;
-  }
+  if (office && /\.(mp\d)|(m4a)\??/i.test(url)) return proxy;
   return direct;
 }
