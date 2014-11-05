@@ -2,6 +2,7 @@
 // https://github.com/clowwindy/gfwlist2pac
 
 var domains = {
+  "127.0.0.1": 0,
   "gimpshop.com": 1, 
   "directcreative.com": 1, 
   "speedpluss.org": 1, 
@@ -382,7 +383,7 @@ var domains = {
   "chosun.com": 1, 
   "baidu.jp": 1, 
   "philly.com": 1, 
-  "apple.com": 1, 
+//  "apple.com": 1, 
   "tweete.net": 1, 
   "nyt.com": 1, 
   "mingpaonews.com": 1, 
@@ -2437,7 +2438,7 @@ var domains = {
   "lookatgame.com": 1, 
   "darpa.mil": 1, 
   "wtfpeople.com": 1, 
-  "1-apple.com.tw": 1,
+//  "1-apple.com.tw": 1,
   "github.com": 1,
   "dropbox.com": 1,
   "linode.com": 1,
@@ -2451,27 +2452,42 @@ var domains = {
   "vipstatic.com": 0,
   "jetbrains.com": 1,
   "instagram.com": 1,
-  "linkedin.com": 1
+  "linkedin.com": 1,
+  "agilebits.com": 1,
+  "godaddy.com": 1,
+  "startssl.com": 1,
+  "btdigg.org": 1,
+  "digitalattackmap.com": 1,
+  "igvita.com": 1,
+  "apache.org": 1,
+  "jquery.com": 1,
+  "coursera.org": 1,
+  "cloudfront.net": 1,
+  "feedly.com": 1,
+  "imgur.com": 1,
+  "dropboxusercontent.com": 1,
+  "dnsimple.com": 1,
+  "xbox.com": 1
 };
 
-var proxy, direct, office;
+var off, proxy, direct, office;
 
-if ((office = (dnsResolve("oa2.vipshop.com") == "192.168.0.33"))) {
-  proxy  = "SOCKS5 192.168.44.67:21; SOCKS 192.168.44.67:21; DIRECT;"
-  direct = "PROXY 192.168.44.67:20;"
-} else {
+// if ((office = (dnsResolve("oa2.vipshop.com") == "192.168.0.33"))) {
+//   proxy  = "SOCKS5 192.168.44.67:21; SOCKS 192.168.44.67:21; DIRECT;"
+//   direct = "PROXY 192.168.44.67:20;"
+// } else {
   proxy  = "SOCKS5 127.0.0.1:7070; SOCKS 127.0.0.1:7070; DIRECT;"
   direct = "DIRECT;"
-}
+// }
 
 function FindProxyForURL(url, host) {
   if (/google/i.test(host)) return proxy;
-  var off;
   do {
     if (domains.hasOwnProperty(host)) return domains[host] ? proxy : "DIRECT;";
     off  = host.indexOf('.') + 1;
     host = host.slice(off);
   } while (off >= 1);
-  if (office && /\.(mp\d)|(m4a)\??/i.test(url)) return proxy;
+  // if (!office) return direct;
+  // if (/\.(mp[34])|(m4a)\??/i.test(url)) return proxy;
   return direct;
 }
