@@ -2467,7 +2467,8 @@ var domains = {
   "imgur.com": 1,
   "dropboxusercontent.com": 1,
   "dnsimple.com": 1,
-  "xbox.com": 1
+  "xbox.com": 1,
+  "digitalocean.com": 1
 };
 
 var off, proxy, direct, office;
